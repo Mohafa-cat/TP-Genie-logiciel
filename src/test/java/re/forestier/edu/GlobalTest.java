@@ -17,26 +17,12 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class GlobalTest {
 
     @Test
+    @DisplayName("Test d'affichage de base")
     void testAffichageBase() {
         player player = new player("Florian", "Gnognak le Barbare", "ADVENTURER", 200, new ArrayList<>());
         UpdatePlayer.addXp(player, 20);
         player.inventory = new ArrayList<>();
 
         verify(Affichage.afficherJoueur(player));
-    }
-
-    @Test
-    @DisplayName("retrieve Level")
-    void testRetrieveLevel() {
-        player p = new player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
-        UpdatePlayer.addXp(p, 25);
-        assertThat(p.retrieveLevel(), is(2));
-        UpdatePlayer.addXp(p, 25);
-        assertThat(p.retrieveLevel(), is(3));
-        UpdatePlayer.addXp(p, 25);
-        assertThat(p.retrieveLevel(), is(4));
-        UpdatePlayer.addXp(p, 100);
-        assertThat(p.retrieveLevel(), is(5));
-        assertThat(p.getXp(), is(175));
     }
 }

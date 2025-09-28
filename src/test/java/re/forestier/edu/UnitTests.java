@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class UnitTests {
 
     @Test
-    @DisplayName("Test de classe")
+    @DisplayName("Test de la création d'un joueur avec une classe valide")
     void testPlayerName() {
         player adventurer = new player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
         assertThat(adventurer.getAvatarClass(), is("ADVENTURER"));
@@ -28,16 +28,26 @@ public class UnitTests {
     }
 
     @Test
-    @DisplayName("Test player avec classe invalide")
+    @DisplayName("Test de la création d'un joueur avec une classe invalide")
     void testPlayerClasseInvalide() {
         player player = new player("Florian", "Grognak le barbare", "WARRIOR", 100, new ArrayList<>());
         assertNull(player.playerName);
-
-
     }
 
     @Test
-    @DisplayName("Impossible to have negative money")
+    @DisplayName("Test d'ajout et de retrait d'argent")
+    void testAddRemoveMoney() {
+        player p = new player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
+        p.removeMoney(50);
+        assertThat(p.money, is(50));
+        p.addMoney(50);
+        assertThat(p.money, is(100));
+        p.addMoney(0);
+        assertThat(p.money, is(100));
+    }
+
+    @Test
+    @DisplayName("Test d'argent négatif")
     void testNegativeMoney() {
         player p = new player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
 
@@ -49,22 +59,8 @@ public class UnitTests {
         fail();
     }
 
-
     @Test
-    @DisplayName("Add et remove money")
-    void testAddRemoveMoney() {
-        player p = new player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
-        p.removeMoney(50);
-        assertThat(p.money, is(50));
-        p.addMoney(50);
-        assertThat(p.money, is(100));
-        p.addMoney(0);
-        assertThat(p.money, is(100));
-    }
-
-
-    @Test
-    @DisplayName("retrieve Level")
+    @DisplayName("Test pour récupérer le niveau du joueur en fonction de son XP")
     void testRetrieveLevel() {
         player p = new player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
         UpdatePlayer.addXp(p, 25);
@@ -81,7 +77,7 @@ public class UnitTests {
     }
 
     @Test 
-    @DisplayName("Mise à jour de la vie en fin de tour")
+    @DisplayName("Test de la mise à jour des points de vie en fin de tour")
     void testMajFinDeTour() {
         player adventurer = new player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
         UpdatePlayer.majFinDeTour(adventurer);
@@ -89,37 +85,38 @@ public class UnitTests {
         adventurer.healthpoints = 80;
         adventurer.currenthealthpoints = 100;
         UpdatePlayer.majFinDeTour(adventurer);
-
-        adventurer.healthpoints = 102;
-        adventurer.currenthealthpoints = 98;
-        UpdatePlayer.majFinDeTour(adventurer);
+        assertThat(adventurer.currenthealthpoints, is(80));
 
         adventurer.healthpoints = 100;
-        adventurer.currenthealthpoints = 98;
+        adventurer.currenthealthpoints = 90;
         UpdatePlayer.majFinDeTour(adventurer);
+        assertThat(adventurer.currenthealthpoints, is(90));
 
-        adventurer.healthpoints = 200;
-        adventurer.currenthealthpoints = 98;
+        adventurer.healthpoints = 100;
+        adventurer.currenthealthpoints = 40;
         UpdatePlayer.majFinDeTour(adventurer);
+        assertThat(adventurer.currenthealthpoints, is(41));
 
-        adventurer.healthpoints = 200;
-        adventurer.currenthealthpoints = 98;
+        adventurer.currenthealthpoints = 40;
         UpdatePlayer.addXp(adventurer, 100); 
         UpdatePlayer.majFinDeTour(adventurer);
+        assertThat(adventurer.currenthealthpoints, is(42));
 
         player dwarf = new player("Florian", "Grognak le barbare", "DWARF", 100, new ArrayList<>(Arrays.asList("Holy Elixir")));
-        dwarf.healthpoints = 210;
-        dwarf.currenthealthpoints = 100;
+        dwarf.healthpoints = 100;
+        dwarf.currenthealthpoints = 40;
         UpdatePlayer.majFinDeTour(dwarf);
         dwarf.inventory = new ArrayList<>();
         UpdatePlayer.majFinDeTour(dwarf);
+        assertThat(dwarf.currenthealthpoints, is(43));
 
         player archer = new player("Florian", "Grognak le barbare", "ARCHER", 100, new ArrayList<>(Arrays.asList("Magic Bow")));
-        archer.healthpoints = 210;
-        archer.currenthealthpoints = 100;
+        archer.healthpoints = 100;
+        archer.currenthealthpoints = 40;
         UpdatePlayer.majFinDeTour(archer);
         archer.inventory = new ArrayList<>();
         UpdatePlayer.majFinDeTour(archer);
+        assertThat(archer.currenthealthpoints, is(46));
     }
 
 }
