@@ -1,0 +1,12 @@
+Joueur Gnognak le Barbare joué par Florian
+Niveau : 2 (XP totale : 20)
+
+Capacités :
+   DEF : 1
+   ATK : 3
+   CHA : 3
+   INT : 2
+
+Inventaire :
+   Draupnir : Increases XP gained by 100%
+   Holy Elixir
