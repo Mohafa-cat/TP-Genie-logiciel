@@ -76,6 +76,8 @@ public class UnitTests {
 
         assertThat(UpdatePlayer.addXp(p, 1), is(false));
         assertThat(p.getXp(), is(41));
+
+        assertThat(p.abilities.size(), is(5));
     }
 
     @Test
